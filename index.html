@@ -296,11 +296,8 @@
       font-size: 24px;
       box-shadow: inset 0 0 0 5px #fffaf4, inset 0 0 0 6px rgba(111,67,56,.36);
     }
-    .spread-choice h3 { margin: 0; color: var(--brown); font-family: Georgia, serif; font-size: clamp(22px, 2.7vw, 29px); font-weight: 500; }
+    .spread-choice h3 { margin: 0 0 7px; color: var(--brown); font-family: Georgia, serif; font-size: clamp(22px, 2.7vw, 29px); font-weight: 500; }
     .spread-choice p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
-    .spread-title-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 0 0 7px; }
-    .spread-badge { display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 999px; background: rgba(200,160,99,.18); border: 1px solid rgba(200,160,99,.42); color: var(--brown); font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
-    .spread-badge .check-symbol { font-size: 12px; }
     .choice-status {
       position: relative;
       z-index: 1;
@@ -574,6 +571,73 @@
     .entry-reflection strong { color: var(--brown); display: block; margin-bottom: 6px; }
     .entry-reflection p { margin: 0; color: #5f4c45; line-height: 1.55; white-space: pre-wrap; }
 
+    .printable-panel {
+      margin: 4px 0 72px;
+      overflow: hidden;
+      border: 1px solid rgba(200,160,99,.42);
+      border-radius: 26px;
+      background: linear-gradient(135deg, rgba(255,250,244,.92), rgba(234,214,173,.23));
+      box-shadow: 0 16px 40px rgba(67,40,33,.08);
+    }
+    .printable-inner {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 20px;
+      align-items: center;
+      padding: 26px 28px;
+    }
+    .printable-icon {
+      width: 58px;
+      height: 72px;
+      display: grid;
+      place-items: center;
+      border: 1.5px solid var(--brown);
+      border-radius: 10px;
+      color: var(--brown);
+      background: rgba(255,250,244,.85);
+      box-shadow: inset 0 0 0 5px rgba(255,250,244,.9), inset 0 0 0 6px rgba(111,67,56,.22);
+      font-family: Georgia, serif;
+      font-size: 25px;
+    }
+    .printable-kicker {
+      margin-bottom: 5px;
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+    .printable-copy h3 {
+      margin: 0;
+      color: var(--brown);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(24px, 3vw, 34px);
+      font-weight: 500;
+    }
+    .printable-copy p {
+      max-width: 680px;
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .printable-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; }
+    .printable-actions a { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
+    .printable-preview {
+      padding: 0 18px 18px;
+      border-top: 1px solid rgba(200,160,99,.25);
+    }
+    .printable-preview[hidden] { display: none; }
+    .printable-preview iframe {
+      display: block;
+      width: 100%;
+      height: min(76vh, 820px);
+      min-height: 560px;
+      margin-top: 18px;
+      border: 0;
+      border-radius: 18px;
+      background: #f7eee7;
+    }
+
     .footer {
       padding: 24px 18px 40px;
       color: var(--muted);
@@ -634,6 +698,9 @@
       .hero { padding-top: 34px; }
       .hero h1 { font-size: clamp(49px, 15vw, 72px); }
       .spread-grid { grid-template-columns: 1fr; }
+      .printable-inner { grid-template-columns: auto 1fr; padding: 22px; }
+      .printable-actions { grid-column: 1 / -1; justify-content: flex-start; }
+      .printable-preview iframe { min-height: 480px; }
       .spread-choice { grid-template-columns: 72px 1fr auto; }
       .mini-card { width: 62px; height: 94px; }
       .reader-toolbar { align-items: flex-start; }
@@ -656,6 +723,11 @@
       .hero h1 { font-size: 50px; }
       .hero-copy { font-size: 16px; }
       .hero-actions > button { width: 100%; }
+      .printable-inner { grid-template-columns: 1fr; gap: 14px; }
+      .printable-icon { width: 50px; height: 62px; }
+      .printable-actions { display: grid; grid-template-columns: 1fr; width: 100%; }
+      .printable-actions a, .printable-actions button { width: 100%; }
+      .printable-preview iframe { min-height: 420px; height: 68vh; }
       .spread-choice { grid-template-columns: 55px 1fr 20px; padding: 15px; min-height: 128px; gap: 12px; }
       .mini-card { width: 50px; height: 78px; font-size: 19px; }
       .spread-choice h3 { font-size: 21px; }
@@ -732,6 +804,24 @@
             <div><h2>Choose Your Spread</h2><p>Every spread follows a four-part arc: awareness, what is limiting the experience, a supportive next step, and a commitment that carries the insight forward.</p></div>
           </div>
           <div id="spreadGrid" class="spread-grid"></div>
+
+          <section class="printable-panel" aria-labelledby="printableTitle">
+            <div class="printable-inner">
+              <div class="printable-icon" aria-hidden="true">✦</div>
+              <div class="printable-copy">
+                <div class="printable-kicker">Printable companion</div>
+                <h3 id="printableTitle">Want the spreads beside you?</h3>
+                <p>Open the printable edition with all ten spreads and the journal page—perfect for reading away from the screen or keeping in your tarot binder.</p>
+              </div>
+              <div class="printable-actions">
+                <a class="primary-btn" href="https://drive.google.com/file/d/1AyvPpFBw_8gJM58JOGyEEgjJbIVBGmDM/view?usp=sharing" target="_blank" rel="noopener noreferrer">Open Printable Spreads ↗</a>
+                <button class="secondary-btn" id="togglePrintableBtn" type="button" aria-expanded="false" aria-controls="printablePreview">Preview Here</button>
+              </div>
+            </div>
+            <div id="printablePreview" class="printable-preview" hidden>
+              <iframe title="A Life Lit From Within printable tarot spreads" loading="lazy" src="https://drive.google.com/file/d/1AyvPpFBw_8gJM58JOGyEEgjJbIVBGmDM/preview" allow="autoplay"></iframe>
+            </div>
+          </section>
         </div>
       </section>
 
@@ -918,7 +1008,7 @@
 
     function syncCompletedSpreadsFromJournal() {
       getReadings().forEach(reading => {
-        if (Number.isInteger(reading.spreadIndex)) {
+        if (Number.isInteger(reading.spreadIndex) && isReadingComplete(reading.entries)) {
           completedSpreads.add(reading.spreadIndex);
         }
       });
@@ -933,10 +1023,7 @@
         <button class="spread-choice ${isComplete ? 'completed' : ''}" data-spread="${index}" aria-label="${escapeHtml(spread.title)}${isComplete ? ', completed' : ''}">
           <div class="mini-card" aria-hidden="true">${index + 1}</div>
           <div>
-            <div class="spread-title-row">
-              <h3>${escapeHtml(spread.title)}</h3>
-              ${isComplete ? '<span class="spread-badge"><span class="check-symbol">✓</span><span>Done</span></span>' : ''}
-            </div>
+            <h3>${escapeHtml(spread.title)}</h3>
             <p>${escapeHtml(spread.subtitle)}</p>
             ${isComplete ? '<span class="sr-only">Completed at least once</span>' : ''}
           </div>
@@ -1114,13 +1201,13 @@
       }
       safeWrite(STORAGE_KEY, readings);
       state.editingId = record.id;
-      markSpreadComplete(record.spreadIndex);
+      if (isReadingComplete(record.entries)) markSpreadComplete(record.spreadIndex);
       persistDraft();
       renderSpreadGrid();
       $('#saveNote').textContent = isReadingComplete(record.entries)
-        ? 'Saved to your journal. This spread now shows a checkmark on the spread library.'
-        : 'Saved to your journal. This spread now shows a checkmark on the spread library, and filling all four card positions still completes the individual card layout.';
-      toast(isReadingComplete(record.entries) ? 'Reading saved — spread marked ✓' : 'Reading saved — spread marked ✓');
+        ? 'Saved to your journal. This spread is now marked complete on the spread library.'
+        : 'Saved to your journal. Complete all four card positions to earn its checkmark.';
+      toast(isReadingComplete(record.entries) ? 'Reading saved — spread complete ✓' : 'Reading saved to your journal ✦');
     }
 
     function formatDate(iso) {
@@ -1332,6 +1419,16 @@
     $$('.nav-tab').forEach(tab => tab.addEventListener('click', () => switchView(tab.dataset.view)));
     $$('[data-go]').forEach(button => button.addEventListener('click', () => switchView(button.dataset.go)));
     $('#beginReadingBtn').addEventListener('click', () => document.querySelector('.spread-grid').scrollIntoView({ behavior: 'smooth', block: 'start' }));
+
+    $('#togglePrintableBtn').addEventListener('click', () => {
+      const button = $('#togglePrintableBtn');
+      const preview = $('#printablePreview');
+      const isOpen = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', String(!isOpen));
+      preview.hidden = isOpen;
+      button.textContent = isOpen ? 'Preview Here' : 'Hide Preview';
+      if (!isOpen) preview.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
     $('#spreadSelect').addEventListener('change', event => startSpread(Number(event.target.value)));
     $('#drawnCard').addEventListener('input', () => { saveCurrentPositionFields(); renderBoard(); updateProgressOnly(); });
     $('#cardInterpretation').addEventListener('input', () => { saveCurrentPositionFields(); renderBoard(); updateProgressOnly(); });
