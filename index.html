@@ -296,9 +296,57 @@
       font-size: 24px;
       box-shadow: inset 0 0 0 5px #fffaf4, inset 0 0 0 6px rgba(111,67,56,.36);
     }
-    .spread-choice h3 { margin: 0 0 7px; color: var(--brown); font-family: Georgia, serif; font-size: clamp(22px, 2.7vw, 29px); font-weight: 500; }
+    .spread-choice h3 { margin: 0; color: var(--brown); font-family: Georgia, serif; font-size: clamp(22px, 2.7vw, 29px); font-weight: 500; }
     .spread-choice p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
-    .choice-arrow { position: relative; z-index: 1; font-size: 22px; color: var(--gold); }
+    .spread-title-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 0 0 7px; }
+    .spread-badge { display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 999px; background: rgba(200,160,99,.18); border: 1px solid rgba(200,160,99,.42); color: var(--brown); font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .spread-badge .check-symbol { font-size: 12px; }
+    .choice-status {
+      position: relative;
+      z-index: 1;
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: var(--gold);
+      font-size: 22px;
+      font-weight: 900;
+      transition: transform .2s ease, background .2s ease, color .2s ease;
+    }
+    .spread-choice.completed {
+      border-color: rgba(200,160,99,.46);
+      background: linear-gradient(135deg, rgba(255,250,244,.90), rgba(234,214,173,.20));
+    }
+    .spread-choice.completed .choice-status {
+      width: auto;
+      min-width: 32px;
+      height: 32px;
+      padding: 0 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: var(--gold);
+      color: white;
+      box-shadow: 0 7px 18px rgba(111,67,56,.18);
+      font-size: 13px;
+      letter-spacing: .04em;
+    }
+    .check-symbol { font-size: 15px; line-height: 1; }
+    .check-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .11em; }
+    .spread-choice:hover .choice-status { transform: scale(1.06); }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
 
     .reader-page { padding: clamp(34px, 5vw, 65px) 0 70px; }
     .reader-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 24px; }
@@ -760,6 +808,7 @@
           <div class="journal-heading">
             <div><h2>Your Spread Journal</h2><p>Saved readings stay in this browser. Export a backup whenever you want to carry them to another device.</p></div>
             <div class="journal-actions">
+              <button class="secondary-btn small-btn" id="copyJournalBtn">Copy Journal as Text</button>
               <button class="secondary-btn small-btn" id="exportJournalBtn">Export Journal</button>
               <button class="secondary-btn small-btn" id="importJournalBtn">Import Journal</button>
               <input id="importFile" class="hidden-input" type="file" accept="application/json" />
@@ -778,6 +827,7 @@
     const spreads = [{"title": "The Joy Spark", "subtitle": "Notice what is already glowing and give it room to grow.", "questions": ["What is already creating a spark of joy in my life right now?", "What is making it difficult for me to fully notice or receive this joy?", "What can I do to give this spark more room to grow?", "How can I commit to following what makes me feel more alive?"]}, {"title": "Permission to Play", "subtitle": "Make room for lightness, curiosity, and restorative play.", "questions": ["Where is my life inviting me to experience more play and lightness?", "What belief, expectation, or responsibility has made it difficult for me to play freely?", "What playful experience can I give myself permission to explore?", "How can I make play a meaningful and consistent part of my life?"]}, {"title": "Everyday Magic", "subtitle": "Reconnect with the ordinary moments that make life feel enchanted.", "questions": ["What simple source of joy or beauty is available to me in my everyday life?", "What has been distracting me from appreciating these ordinary moments?", "What practice can help me become more present to the magic around me?", "How can I commit to noticing and honoring small moments of joy more often?"]}, {"title": "The Joy Reclamation", "subtitle": "Welcome a meaningful source of past joy back in a way that fits who you are now.", "questions": ["What source of joy from my past still holds meaning for me?", "What caused me to lose touch with this part of myself?", "How can I welcome the essence of this joy back into my life in a way that fits who I am now?", "What commitment can I make to protect and nurture this reclaimed joy?"]}, {"title": "Joy in Bloom", "subtitle": "Nourish a new source of joy as it begins to take root.", "questions": ["What new source of joy is beginning to grow within my life?", "What habit, circumstance, or hesitation may be limiting its growth?", "What nourishment does this joy need in order to flourish?", "How can I actively support its continued growth?"]}, {"title": "Follow the Delight", "subtitle": "Let curiosity become a gentle and meaningful source of guidance.", "questions": ["What is currently capturing my curiosity, excitement, or delight?", "What fear or judgment makes it difficult for me to follow this feeling?", "What small experiment can help me explore where this delight may lead?", "How can I trust delight as a meaningful source of guidance?"]}, {"title": "The Celebration", "subtitle": "Honor what you have accomplished and carry its confidence forward.", "questions": ["What accomplishment, growth, or personal victory deserves to be celebrated?", "What has kept me from fully acknowledging what I have achieved?", "How can I celebrate this moment in a way that feels meaningful to me?", "How can I carry this confidence and pride into my next chapter?"]}, {"title": "Joyful Connection", "subtitle": "Explore the relationships and shared experiences that nourish belonging.", "questions": ["What kind of connection brings the greatest sense of joy and belonging into my life?", "What pattern or hesitation may be limiting my experience of shared joy?", "What invitation, conversation, or action could create more meaningful connection?", "How can I contribute to relationships that feel joyful, mutual, and nourishing?"]}, {"title": "The Pleasure Compass", "subtitle": "Listen to the pleasure your body, heart, and spirit are asking for.", "questions": ["What kind of pleasure or enjoyment is my body, heart, or spirit asking for right now?", "What belief or past experience makes it difficult for me to trust this desire?", "What choice can I make to welcome more nourishing pleasure into my life?", "How can I honor pleasure as a guide while remaining connected to my values and boundaries?"]}, {"title": "A Life That Feels Good", "subtitle": "Clarify what supports a joyful, fulfilling, and deeply aligned life.", "questions": ["What part of my life already feels joyful, fulfilling, or deeply aligned?", "What is currently draining my joy or creating unnecessary heaviness?", "What change would create more space for the experiences I want to have?", "What commitment will help me continue choosing a life that feels good to me?"]}];
     const STORAGE_KEY = 'lifeLitWithin.readings.v1';
     const DRAFT_KEY = 'lifeLitWithin.draft.v1';
+    const COMPLETED_KEY = 'lifeLitWithin.completedSpreads.v1';
 
     let state = {
       view: 'home',
@@ -791,22 +841,24 @@
 
     const $ = (selector) => document.querySelector(selector);
     const $$ = (selector) => [...document.querySelectorAll(selector)];
+    const memoryStore = window.__lifeLitMemoryStore || (window.__lifeLitMemoryStore = Object.create(null));
+    const completedSpreads = new Set();
 
     function emptyEntries() {
       return Array.from({ length: 4 }, () => ({ card: '', interpretation: '' }));
     }
 
-    const memoryStore = {};
-
     function safeRead(key, fallback) {
-      try {
-        const raw = localStorage.getItem(key);
-        if (raw) return JSON.parse(raw);
-      } catch (error) {
-        // Some preview environments block localStorage. The in-memory fallback keeps the artifact usable.
+      let raw = Object.prototype.hasOwnProperty.call(memoryStore, key) ? memoryStore[key] : null;
+      if (!raw) {
+        try {
+          raw = localStorage.getItem(key);
+        } catch (error) {
+          // Embedded previews may block localStorage, so the in-memory copy is used instead.
+        }
       }
       try {
-        return memoryStore[key] ? JSON.parse(memoryStore[key]) : fallback;
+        return raw ? JSON.parse(raw) : fallback;
       } catch (error) {
         return fallback;
       }
@@ -818,7 +870,7 @@
       try {
         localStorage.setItem(key, encoded);
       } catch (error) {
-        // The reading still remains available for this session and can be exported as a backup.
+        // The in-memory copy keeps this session working even when browser storage is blocked.
       }
       return true;
     }
@@ -835,17 +887,62 @@
       toast.timer = setTimeout(() => el.classList.remove('show'), 2200);
     }
 
+    function isReadingComplete(entries) {
+      return Array.isArray(entries) && entries.length === 4 && entries.every(entry =>
+        entry && (String(entry.card || '').trim() || String(entry.interpretation || '').trim())
+      );
+    }
+
+    function hydrateCompletedSpreads() {
+      completedSpreads.clear();
+      const saved = safeRead(COMPLETED_KEY, []);
+      if (Array.isArray(saved)) {
+        saved.map(Number).filter(Number.isInteger).forEach(index => completedSpreads.add(index));
+      }
+    }
+
+    function getCompletedSpreads() {
+      return new Set(completedSpreads);
+    }
+
+    function markSpreadComplete(index) {
+      const normalizedIndex = Number(index);
+      if (!Number.isInteger(normalizedIndex)) return;
+      completedSpreads.add(normalizedIndex);
+      safeWrite(COMPLETED_KEY, [...completedSpreads].sort((a, b) => a - b));
+    }
+
+    function maybeMarkCurrentSpreadComplete() {
+      if (isReadingComplete(state.entries)) markSpreadComplete(state.spreadIndex);
+    }
+
+    function syncCompletedSpreadsFromJournal() {
+      getReadings().forEach(reading => {
+        if (Number.isInteger(reading.spreadIndex)) {
+          completedSpreads.add(reading.spreadIndex);
+        }
+      });
+      safeWrite(COMPLETED_KEY, [...completedSpreads].sort((a, b) => a - b));
+    }
+
     function renderSpreadGrid() {
-      $('#spreadGrid').innerHTML = spreads.map((spread, index) => `
-        <button class="spread-choice" data-spread="${index}">
+      const completed = getCompletedSpreads();
+      $('#spreadGrid').innerHTML = spreads.map((spread, index) => {
+        const isComplete = completed.has(index);
+        return `
+        <button class="spread-choice ${isComplete ? 'completed' : ''}" data-spread="${index}" aria-label="${escapeHtml(spread.title)}${isComplete ? ', completed' : ''}">
           <div class="mini-card" aria-hidden="true">${index + 1}</div>
           <div>
-            <h3>${escapeHtml(spread.title)}</h3>
+            <div class="spread-title-row">
+              <h3>${escapeHtml(spread.title)}</h3>
+              ${isComplete ? '<span class="spread-badge"><span class="check-symbol">✓</span><span>Done</span></span>' : ''}
+            </div>
             <p>${escapeHtml(spread.subtitle)}</p>
+            ${isComplete ? '<span class="sr-only">Completed at least once</span>' : ''}
           </div>
-          <div class="choice-arrow" aria-hidden="true">→</div>
-        </button>
-      `).join('');
+          <div class="choice-status" aria-hidden="true" title="${isComplete ? 'Completed' : 'Open spread'}">${isComplete ? '<span class="check-symbol">✓</span><span class="check-label">Complete</span>' : '→'}</div>
+        </button>`;
+      }).join('');
 
       $$('.spread-choice').forEach(button => {
         button.addEventListener('click', () => startSpread(Number(button.dataset.spread)));
@@ -890,7 +987,8 @@
       $('#overallReflection').value = state.overall;
       $('#actionCommitment').value = state.action;
       $('#prevPositionBtn').disabled = position === 0;
-      $('#nextPositionBtn').textContent = position === 3 ? 'Review Reading ✦' : 'Next Position →';
+      $('#nextPositionBtn').hidden = position === 3;
+      $('#nextPositionBtn').textContent = 'Next Position →';
 
       const completeCount = state.entries.filter(entry => entry.card.trim() || entry.interpretation.trim()).length;
       $('#progressText').textContent = `${completeCount} of 4`;
@@ -911,6 +1009,7 @@
       const action = $('#actionCommitment');
       if (overall) state.overall = overall.value;
       if (action) state.action = action.value;
+      maybeMarkCurrentSpreadComplete();
       persistDraft();
     }
 
@@ -941,6 +1040,7 @@
       state.view = view;
       $$('.view').forEach(el => el.classList.toggle('active', el.id === `${view}View`));
       $$('.nav-tab').forEach(tab => tab.classList.toggle('active', tab.dataset.view === view));
+      if (view === 'home') renderSpreadGrid();
       if (view === 'reader') renderReader();
       if (view === 'journal') renderJournal();
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -948,6 +1048,14 @@
 
     function startSpread(index) {
       const hasDraft = state.entries.some(entry => entry.card.trim() || entry.interpretation.trim()) || state.overall.trim() || state.action.trim();
+
+      // Returning to the same spread should resume the existing draft rather than erase it.
+      if (hasDraft && index === state.spreadIndex) {
+        switchView('reader');
+        toast('Your in-progress reading is ready.');
+        return;
+      }
+
       if (hasDraft && index !== state.spreadIndex) {
         const proceed = confirm('Begin a different spread? Your current draft will be cleared unless it has already been saved to the journal.');
         if (!proceed) return;
@@ -1006,9 +1114,13 @@
       }
       safeWrite(STORAGE_KEY, readings);
       state.editingId = record.id;
+      markSpreadComplete(record.spreadIndex);
       persistDraft();
-      $('#saveNote').textContent = 'Saved to your journal. You can keep refining this reading and save again.';
-      toast('Reading saved to your journal ✦');
+      renderSpreadGrid();
+      $('#saveNote').textContent = isReadingComplete(record.entries)
+        ? 'Saved to your journal. This spread now shows a checkmark on the spread library.'
+        : 'Saved to your journal. This spread now shows a checkmark on the spread library, and filling all four card positions still completes the individual card layout.';
+      toast(isReadingComplete(record.entries) ? 'Reading saved — spread marked ✓' : 'Reading saved — spread marked ✓');
     }
 
     function formatDate(iso) {
@@ -1125,6 +1237,58 @@
       }
     }
 
+    function journalText() {
+      const readings = getReadings();
+      if (!readings.length) return '';
+      const lines = ['A LIFE LIT FROM WITHIN', 'SPREAD JOURNAL', ''];
+
+      readings.forEach((reading, readingIndex) => {
+        const spread = spreads[reading.spreadIndex] || spreads[0];
+        const date = formatDate(reading.createdAt);
+        lines.push(`${readingIndex + 1}. ${spread.title}`);
+        lines.push(date.full);
+        lines.push(spread.subtitle, '');
+
+        spread.questions.forEach((question, index) => {
+          const entry = reading.entries[index] || { card: '', interpretation: '' };
+          lines.push(`POSITION ${index + 1}`);
+          lines.push(question);
+          lines.push(`Card: ${entry.card || '—'}`);
+          lines.push(`Interpretation: ${entry.interpretation || '—'}`, '');
+        });
+
+        lines.push('DEEPER MESSAGE');
+        lines.push(reading.overall || '—', '');
+        lines.push('COMMITMENT');
+        lines.push(reading.action || '—');
+        lines.push('', '────────────────────────────────────────', '');
+      });
+
+      return lines.join('\n').trim();
+    }
+
+    async function copyJournal() {
+      const text = journalText();
+      if (!text) {
+        toast('Your journal is empty.');
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(text);
+        toast('Your complete journal was copied as text.');
+      } catch (error) {
+        const area = document.createElement('textarea');
+        area.value = text;
+        area.style.position = 'fixed';
+        area.style.opacity = '0';
+        document.body.appendChild(area);
+        area.select();
+        document.execCommand('copy');
+        area.remove();
+        toast('Your complete journal was copied as text.');
+      }
+    }
+
     function exportJournal() {
       const readings = getReadings();
       const payload = { artifact: 'A Life Lit From Within', version: 1, exportedAt: new Date().toISOString(), readings };
@@ -1153,6 +1317,8 @@
             return acc;
           }, []);
           safeWrite(STORAGE_KEY, merged);
+          syncCompletedSpreadsFromJournal();
+          renderSpreadGrid();
           renderJournal();
           toast(`${valid.length} reading${valid.length === 1 ? '' : 's'} imported.`);
         } catch (error) {
@@ -1186,6 +1352,7 @@
     $('#resetReadingBtn').addEventListener('click', () => resetReading(true));
     $('#copyReadingBtn').addEventListener('click', copyReading);
     $('#printReadingBtn').addEventListener('click', () => { saveCurrentPositionFields(); window.print(); });
+    $('#copyJournalBtn').addEventListener('click', copyJournal);
     $('#exportJournalBtn').addEventListener('click', exportJournal);
     $('#importJournalBtn').addEventListener('click', () => $('#importFile').click());
     $('#importFile').addEventListener('change', event => {
@@ -1201,6 +1368,8 @@
     }
 
     // Initialize
+    hydrateCompletedSpreads();
+    syncCompletedSpreadsFromJournal();
     renderSpreadGrid();
     renderSpreadSelect();
     restoreDraft();
